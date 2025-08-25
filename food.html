@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>เมนูอาหาร</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #beb5d3;
+      padding: 40px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 40px;
+      color: #2c3e50;
+    }
+
+    .menu-container {
+      display: flex; /* ✅ ใช้ Flex */
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .menu-item {
+      width: 250px;
+      transition: transform 0.3s ease;
+    }
+
+    .menu-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .menu-item:hover img {
+      transform: scale(1.05); /* ✅ ขยายเมื่อ hover */
+    }
+
+    .food-name {
+      margin-top: 10px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #34495e;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>เมนูอาหารแนะนำ</h1>
+
+  <div class="menu-container">
+    <div class="menu-item">
+      <img src="c:\Users\hp\Pictures\รูปภาพ\ผัดไทยกุ้งสด-2.jpg" alt="ผัดไทย">
+      <div class="food-name">ผัดไทย</div>
+    </div>
+    <div class="menu-item">
+      <img src="c:\Users\hp\Pictures\รูปภาพ\ผัดคะน้าหมูกรอบ.jpg" alt="พิซซ่า">
+      <div class="food-name">ผัดคะน้าหมูกรอบ</div>
+    </div>
+    <div class="menu-item">
+      <img src="c:\Users\hp\Pictures\รูปภาพ\ผัดซีอิ๊วหมู.jpg" alt="เบอร์เกอร์">
+      <div class="food-name">ผัดซีอิ๊วหมู</div>
+    </div>
+  </div>
+
+</body>
+</html>

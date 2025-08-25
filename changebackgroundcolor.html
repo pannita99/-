@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เปลี่ยนสีพื้นหลัง</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: all 0.5s ease;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .color-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .color-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .color-btn:hover::before {
+            left: 100%;
+        }
+
+        .color-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .color-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .color-btn.active {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .red-btn {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+        }
+
+        .green-btn {
+            background: linear-gradient(135deg, #51cf66, #40c057);
+        }
+
+        .blue-btn {
+            background: linear-gradient(135deg, #339af0, #228be6);
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, #868e96, #6c757d);
+        }
+
+        .current-color {
+            margin-top: 25px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            font-size: 16px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* Background color classes */
+        .bg-red {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%) !important;
+        }
+
+        .bg-green {
+            background: linear-gradient(135deg, #51cf66 0%, #40c057 100%) !important;
+        }
+
+        .bg-blue {
+            background: linear-gradient(135deg, #339af0 0%, #228be6 100%) !important;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+            
+            .title {
+                font-size: 28px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .color-btn {
+                padding: 12px 25px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">เปลี่ยนสีพื้นหลัง</h1>
+        <p class="subtitle">คลิกปุ่มเพื่อเปลี่ยนสีพื้นหลังของหน้าเว็บ</p>
+        
+        <div class="button-group">
+            <button class="color-btn red-btn" data-color="red">แดง</button>
+            <button class="color-btn green-btn" data-color="green">เขียว</button>
+            <button class="color-btn blue-btn" data-color="blue">น้ำเงิน</button>
+            <button class="color-btn reset-btn" data-color="reset">รีเซ็ต</button>
+        </div>
+        
+        <div class="current-color" id="currentColor">
+            สีปัจจุบัน: ม่วง-น้ำเงิน (เริ่มต้น)
+        </div>
+    </div>
+
+    <script>
+        // Get all color buttons
+        const colorButtons = document.querySelectorAll('.color-btn');
+        const body = document.body;
+        const currentColorDisplay = document.getElementById('currentColor');
+
+        // Color mapping
+        const colorMap = {
+            'red': {
+                class: 'bg-red',
+                name: 'แดง'
+            },
+            'green': {
+                class: 'bg-green',
+                name: 'เขียว'
+            },
+            'blue': {
+                class: 'bg-blue',
+                name: 'น้ำเงิน'
+            },
+            'reset': {
+                class: '',
+                name: 'ม่วง-น้ำเงิน (เริ่มต้น)'
+            }
+        };
+
+        // Add event listeners to each button
+        colorButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const selectedColor = this.getAttribute('data-color');
+                
+                // Remove all background color classes
+                body.classList.remove('bg-red', 'bg-green', 'bg-blue');
+                
+                // Add the selected color class (if not reset)
+                if (colorMap[selectedColor].class) {
+                    body.classList.add(colorMap[selectedColor].class);
+                }
+                
+                // Update current color display
+                currentColorDisplay.textContent = `สีปัจจุบัน: ${colorMap[selectedColor].name}`;
+                
+                // Remove active class from all buttons
+                colorButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // Add active class to clicked button (except reset)
+                if (selectedColor !== 'reset') {
+                    this.classList.add('active');
+                }
+                
+                // Add a little animation effect
+                this.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+            });
+        });
+
+        // Add hover effects
+        colorButtons.forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px) scale(1.05)';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                if (!this.classList.contains('active')) {
+                    this.style.transform = '';
+                }
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97486beb12597334',t:'MTc1NjA5NjkzNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
